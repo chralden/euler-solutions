@@ -60,14 +60,13 @@
 ;;;
 ;; 4. Largest Palindrome Product
 ;;;
-(defn largestPalindromeProductBetween
-  "Get the largest palindrome product for numbers less than or equal to n"
+(defn palindromeProductsBetween
+  "Get the palindrome products for all numbers between bottom and top"
   [bottom top]
-  (apply max 
-      (filter isPalindrome? 
-          (for [x (range bottom top)
-                y (range bottom top)]
-            (* x y)))))
+    (filter isPalindrome? 
+        (for [x (range bottom top)
+              y (range bottom top)]
+          (* x y))))
 
 ; Find the largest palindrome made from the product of two 3-digit numbers
-(time (largestPalindromeProductBetween 111 999))
+(apply max (palindromeProductsBetween 100 999))
