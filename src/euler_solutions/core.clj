@@ -96,9 +96,7 @@
   [maximum]
   (reduce 
     (fn [acc prime]
-      (if (<= prime (Math/sqrt maximum))
-        (* acc (exp prime (perfectPower maximum prime)))
-        (* acc prime)))
+      (* acc (exp prime (perfectPower maximum prime))))
     1
     (take-while #(< % maximum) (prime-sieve (iterate inc 2)))))
 
