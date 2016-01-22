@@ -2,8 +2,9 @@
   (:gen-class))
 
 ;;;
-;; Utility Functions - mostly predicates for filtering
+;; Utility Functions 
 ;;;
+
 (defn factorOf?
   "Is x a factor of y"
   [x y]
@@ -19,6 +20,18 @@
           (recur (drop-last (rest subseq)))
           false)
         true))))
+
+(defn prime-sieve
+  [s]
+  (cons (first s)
+        (lazy-seq (prime-sieve (remove (partial factorOf? (first s)) (rest s)))))) 
+
+(defn exp
+  [x n]
+  (loop [acc 1
+         n n]
+    (if (zero? n) acc
+      (recur (* x acc) (dec n)))))
 
 ;;;
 ;; 1. Multiples of 3 and 5
@@ -70,3 +83,24 @@
 
 ; Find the largest palindrome made from the product of two 3-digit numbers
 (apply max (palindromeProductsBetween 100 999))
+
+;;;
+;; 5. Smallest Multiple
+;;;
+(defn perfectPower
+  [k p]
+  (Math/floor (/ (Math/log k) (Math/log p))))
+
+(defn smallestMultipleOfAllUpTo
+  "Get the smallest positive integer that is evently divisible by all numbers from 1 to maximum"
+  [maximum]
+  (reduce 
+    (fn [acc prime]
+      (if (<= prime (Math/sqrt maximum))
+        (* acc (exp prime (perfectPower maximum prime)))
+        (* acc prime)))
+    1
+    (take-while #(< % maximum) (prime-sieve (iterate inc 2)))))
+
+; What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20
+(smallestMultipleOfAllUpTo 20)
