@@ -102,3 +102,17 @@
 
 ; What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20
 (smallestMultipleOfAllUpTo 20)
+
+;;;
+;; 6. Sum Square Difference
+;;;
+(defn sumOfSquares
+  [nums]
+  (reduce + (map #(* % %) nums)))
+
+(defn squareOfSum
+  [nums]
+  (exp (reduce + nums) 2))
+
+; Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+(- (squareOfSum (range 101)) (sumOfSquares (range 101)))
