@@ -156,3 +156,28 @@
     (partition digitLength 1 (map #(Character/digit % 10) inputString))))
 
 (apply max (adjacentProducts thousandDigitNumber 13))
+
+;;;
+;; 9. Pythagorean Triplet
+;;;
+
+; There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+; Find the product abc.
+
+; use euclids formula to generate a triplet from two integers
+(defn generateTriplet
+  [n m]
+  (list (- (* m m) (* n n))
+        (* 2 m n)
+        (+ (* m m) (* n n))))
+
+; generate triplets, find the set that sums to 1000 and get their product
+(reduce * 
+  (flatten
+    (filter (fn [x]
+      (= (reduce + x) 1000)) 
+      (reduce 
+        (fn [acc n]
+          (concat acc (map #(generateTriplet n %) (range (inc n) 500))))
+        []
+        (range 2 499)))))
